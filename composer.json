@@ -1,0 +1,27 @@
+{
+    "name": "digbang/locations",
+    "description": "Geocoding base library",
+    "type": "library",
+    "require": {
+        "php": ">=7.1.0",
+        "willdurand/geocoder": "^3.3",
+        "ramsey/uuid": "^3.7",
+        "laravel-doctrine/orm": "^1.3",
+        "laravel-doctrine/fluent": "^1.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.1",
+        "mockery/mockery": "^0.9.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Digbang\\Locations\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Digbang\\Locations\\": "tests/"
+        }
+    },
+    "license": "MIT"
+}
