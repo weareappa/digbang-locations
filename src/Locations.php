@@ -33,7 +33,9 @@ class Locations
      */
     public function getByCoordinates(float $latitude, float $longitude)
     {
-        $collection = $this->provider->reverseQuery(ReverseQuery::fromCoordinates($latitude, $longitude));
+        $query = ReverseQuery::fromCoordinates($latitude, $longitude)
+            ->withData('result_type', 'street_address');
+        $collection = $this->provider->reverseQuery($query);
 
         return $this->mapCollection($collection);
     }
@@ -43,7 +45,8 @@ class Locations
      */
     public function getByAddress(string $address)
     {
-        $collection = $this->provider->geocodeQuery(GeocodeQuery::create($address));
+        $query = GeocodeQuery::create($address)->withData('result_type', 'street_address');;
+        $collection = $this->provider->geocodeQuery($query);
 
         return $this->mapCollection($collection);
     }
@@ -55,6 +58,7 @@ class Locations
     {
         return array_map(function (\Geocoder\Model\Address $address) {
             return $this->addressBuilder->buildAddress($address);
-        }, $collection->all());
+        },
+            $collection->all());
     }
 }
