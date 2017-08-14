@@ -1,9 +1,8 @@
 <?php
 
-namespace Digbang\Settings;
+namespace Digbang\Locations;
 
 use Digbang\Locations\Doctrine\Repositories\DoctrineLocationRepository;
-use Digbang\Locations\LocationRepository;
 use Digbang\Locations\Doctrine\Mappings;
 use Doctrine\ORM\EntityManagerInterface;
 use Geocoder\Provider\GoogleMaps\GoogleMaps;
