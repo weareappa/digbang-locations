@@ -2,72 +2,57 @@
 namespace Digbang\Locations\Util;
 
 use Digbang\Locations\Entities\{
-    Address, AdministrativeLevel, Coordinates, Country, Bounds
+    Address, AdministrativeLevel, Bounds, Coordinates, Country
 };
-use Doctrine\Common\Collections\ArrayCollection;
+use Geocoder\Model\AdminLevel;
 use Geocoder\Model\AdminLevelCollection;
 
 class AddressBuilder
 {
-    /**
-     * @param \Geocoder\Model\Address $address
-     * @return Address
-     */
-    public function make(\Geocoder\Model\Address $address): Address
+    public function buildAddress(\Geocoder\Model\Address $address): Address
     {
         return new Address(
-            $this->makeCoordinates($address->getCoordinates()),
-            $this->makeBounds($address->getBounds()),
+            $this->buildCoordinates($address->getCoordinates()),
+            $this->buildBounds($address->getBounds()),
             $address->getStreetNumber(),
             $address->getStreetName(),
             $address->getPostalCode(),
             $address->getLocality(),
             $address->getSubLocality(),
-            $this->makeAdministrativeLevels($address->getAdminLevels()),
-            $this->makeCountry($address->getCountry()),
+            $this->buildAdministrativeLevels($address->getAdminLevels()),
+            $this->buildCountry($address->getCountry()),
             $address->getTimezone()
         );
     }
 
-    /**
-     * @param \Geocoder\Model\Coordinates $coordinates
-     * @return Coordinates
-     */
-    protected function makeCoordinates(\Geocoder\Model\Coordinates $coordinates): Coordinates
+    public function buildCoordinates(\Geocoder\Model\Coordinates $coordinates): Coordinates
     {
         return new Coordinates($coordinates->getLatitude(), $coordinates->getLongitude());
     }
 
-    /**
-     * @param \Geocoder\Model\Country $country
-     * @return Country
-     */
-    protected function makeCountry(\Geocoder\Model\Country $country): Country
+    public function buildCountry(\Geocoder\Model\Country $country): Country
     {
         return new Country($country->getName(), $country->getCode());
     }
 
-    /**
-     * @param \Geocoder\Model\Bounds $bounds
-     * @return Bounds
-     */
-    protected function makeBounds(\Geocoder\Model\Bounds $bounds): Bounds
+    public function buildBounds(\Geocoder\Model\Bounds $bounds): Bounds
     {
         return new Bounds($bounds->getSouth(), $bounds->getWest(), $bounds->getNorth(), $bounds->getEast());
     }
 
-    /**
-     * @param AdminLevelCollection $collection
-     * @return ArrayCollection
-     */
-    protected function makeAdministrativeLevels(AdminLevelCollection $collection): ArrayCollection
+    public function buildAdministrativeLevels(AdminLevelCollection $collection): array
     {
-        $administrativeLevels = new ArrayCollection;
+        $administrativeLevels = [];
 
         foreach ($collection->all() as $adminLevel) {
-            $administrativeLevels->add(new AdministrativeLevel($adminLevel->getLevel(), $adminLevel->getName(), $adminLevel->getCode()));
+            $administrativeLevels[] = $this->buildAdministrativeLevel($adminLevel);
         }
 
         return $administrativeLevels;
+    }
+
+    public function buildAdministrativeLevel(AdminLevel $adminLevel): AdministrativeLevel
+    {
+        return new AdministrativeLevel($adminLevel->getLevel(), $adminLevel->getName(), $adminLevel->getCode());
     }
 }

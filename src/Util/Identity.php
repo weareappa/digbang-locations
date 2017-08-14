@@ -1,9 +1,8 @@
 <?php
-namespace Digbang\Locations\Traits;
+namespace Digbang\Locations\Util;
 
 use Ramsey\Uuid\UuidInterface;
 use Ramsey\Uuid\Uuid;
-use Digbang\Locations\Util\UuidIdentifiable;
 
 trait Identity
 {

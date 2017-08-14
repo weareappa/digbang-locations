@@ -1,7 +1,8 @@
 <?php
 namespace Digbang\Locations\Entities;
 
-use Digbang\Locations\Traits\Identity;
+
+use Digbang\Locations\Util\Identity;
 
 class AdministrativeLevel
 {
@@ -26,6 +27,8 @@ class AdministrativeLevel
         $this->level = $level;
         $this->name = $name;
         $this->code = $code;
+
+        $this->initializeId();
     }
 
     /**

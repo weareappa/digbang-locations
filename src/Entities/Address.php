@@ -1,7 +1,7 @@
 <?php
 namespace Digbang\Locations\Entities;
 
-use Digbang\Locations\Traits\Identity;
+use Digbang\Locations\Util\Identity;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class Address
@@ -73,6 +73,8 @@ class Address
         $this->administrativeLevels = !empty($administrativeLevels) ? new ArrayCollection($administrativeLevels) : [];
         $this->country = $country;
         $this->timezone = $timezone;
+
+        $this->initializeId();
     }
 
     /**

@@ -14,7 +14,7 @@ class CountryMapping extends EntityMapping
 
         $builder->guid('id')->primary();
         $builder->string('name');
-        $builder->string('code');
+        $builder->string('code')->unique();
     }
 
     public function mapFor()

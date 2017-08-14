@@ -5,14 +5,14 @@ use Digbang\Locations\Entities\Address;
 use Doctrine\ORM\EntityNotFoundException;
 use Ramsey\Uuid\UuidInterface;
 
-interface AddressRepository
+interface LocationRepository
 {
     /**
      * @throws EntityNotFoundException
      */
-    public function get(UuidInterface $id): Address;
+    public function getAddress(UuidInterface $id): Address;
 
-    public function findById(UuidInterface $id): ?Address;
+    public function findAddress(UuidInterface $id): ?Address;
 
     /**
      * @return Address[]

@@ -2,14 +2,14 @@
 namespace Digbang\Locations\Doctrine\Repositories;
 
 use Digbang\Locations\Util\AddressBuilder;
-use Digbang\Locations\AddressRepository;
+use Digbang\Locations\LocationRepository;
 use Digbang\Locations\Entities\Address;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityRepository;
 use Ramsey\Uuid\UuidInterface;
 
-class DoctrineAddressRepository extends EntityRepository implements AddressRepository
+class DoctrineLocationRepository extends EntityRepository implements LocationRepository
 {
     /** @var AddressBuilder */
     private $builder;
@@ -21,7 +21,7 @@ class DoctrineAddressRepository extends EntityRepository implements AddressRepos
         $this->builder = $builder;
     }
 
-    public function get(UuidInterface $id): Address
+    public function getAddress(UuidInterface $id): Address
     {
         /** @var null|Address $address */
         $address = $this->find($id);
@@ -33,7 +33,7 @@ class DoctrineAddressRepository extends EntityRepository implements AddressRepos
         return $address;
     }
 
-    public function findById(UuidInterface $id): ?Address
+    public function findAddress(UuidInterface $id): ?Address
     {
         /** @var null|Address $address */
         $address = $this->find($id);

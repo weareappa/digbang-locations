@@ -1,53 +1,60 @@
 <?php
-namespace Digbang\Locations\Services;
+namespace Digbang\Locations;
 
-use Geocoder\Geocoder;
-use Geocoder\Model\AddressCollection;
-use Geocoder\Provider\GoogleMaps;
-use Ivory\HttpAdapter\HttpAdapterInterface;
+use Digbang\Locations\Entities\Address;
+use Digbang\Locations\Util\AddressBuilder;
+use Geocoder\Collection;
+use Geocoder\Provider\Provider;
+use Geocoder\Query\GeocodeQuery;
+use Geocoder\Query\ReverseQuery;
 
 class Locations
 {
+    /** @var Provider */
+    private $provider;
     /**
-     * Number of AddressCollection items returned by the provider
+     * @var AddressBuilder
      */
-    const MAX_RESULTS = 1;
+    private $addressBuilder;
+    /**
+     * @var LocationRepository
+     */
+    private $repository;
 
-    /** @var Geocoder */
-    private $geocoder;
-
-    /** @param HttpAdapterInterface $adapter */
-    public function __construct(HttpAdapterInterface $adapter)
+    public function __construct(Provider $provider, LocationRepository $repository, AddressBuilder $addressBuilder)
     {
-        $this->geocoder = $this->getGeocoderProvider($adapter);
-        $this->geocoder->limit(static::MAX_RESULTS);
+        $this->provider = $provider;
+        $this->addressBuilder = $addressBuilder;
+        $this->repository = $repository;
     }
 
     /**
-     * @param float $latitude
-     * @param float $longitude
-     * @return AddressCollection
+     * @return Address[]
      */
-    public function getByCoordinates(float $latitude, float $longitude): AddressCollection
+    public function getByCoordinates(float $latitude, float $longitude)
     {
-        return $this->geocoder->reverse($latitude, $longitude);
+        $collection = $this->provider->reverseQuery(ReverseQuery::fromCoordinates($latitude, $longitude));
+
+        return $this->mapCollection($collection);
     }
 
     /**
-     * @param string $address
-     * @return \Geocoder\Model\AddressCollection
+     * @return Address[]
      */
-    public function getByAddress(string $address): AddressCollection
+    public function getByAddress(string $address)
     {
-        return $this->geocoder->geocode($address);
+        $collection = $this->provider->geocodeQuery(GeocodeQuery::create($address));
+
+        return $this->mapCollection($collection);
     }
 
     /**
-     * @param HttpAdapterInterface $adapter
-     * @return Geocoder
+     * @return Address[]
      */
-    protected function getGeocoderProvider(HttpAdapterInterface $adapter): Geocoder
+    private function mapCollection(Collection $collection): array
     {
-        return new GoogleMaps($adapter);
+        return array_map(function (\Geocoder\Model\Address $address) {
+            return $this->addressBuilder->buildAddress($address);
+        }, $collection->all());
     }
 }
