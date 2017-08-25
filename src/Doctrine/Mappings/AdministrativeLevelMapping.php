@@ -14,8 +14,8 @@ class AdministrativeLevelMapping extends EntityMapping
 
         $builder->guid('id')->primary();
         $builder->integer('level');
-        $builder->integer('name');
-        $builder->integer('code');
+        $builder->string('name');
+        $builder->string('code');
     }
 
     public function mapFor()

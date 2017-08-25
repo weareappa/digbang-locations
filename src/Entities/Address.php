@@ -340,4 +340,21 @@ class Address
             'timezone' => $this->timezone,
         );
     }
+
+    public function getFullAddress(): string
+    {
+        $data = [
+            $this->getCountry()->getName(),
+            $this->getLocality(),
+            $this->getSubLocality(),
+        ];
+
+        $streeData = [
+            $this->getStreetName(),
+            $this->getStreetNumber(),
+        ];
+
+        return implode(', ', $data) . implode(' ', $streeData);
+    }
+
 }
