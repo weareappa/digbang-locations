@@ -21,10 +21,4 @@ interface LocationRepository
     public function findAll();
 
     public function persist(Address $address): void;
-
-    /**
-     * @param string $code
-     * @return Country|null
-     */
-    public function findCountryByCode(string $code): ?Country;
 }

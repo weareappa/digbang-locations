@@ -1,7 +1,6 @@
 <?php
 namespace Digbang\Locations\Doctrine\Repositories;
 
-use Digbang\Locations\Entities\Country;
 use Digbang\Locations\Util\AddressBuilder;
 use Digbang\Locations\LocationRepository;
 use Digbang\Locations\Entities\Address;
@@ -58,7 +57,4 @@ class DoctrineLocationRepository extends EntityRepository implements LocationRep
         $entityManager->flush($address);
     }
 
-    public function findCountryByCode(string $code): ?Country
-    {
-    }
 }
