@@ -56,5 +56,4 @@ class DoctrineLocationRepository extends EntityRepository implements LocationRep
         $entityManager->remove($address);
         $entityManager->flush($address);
     }
-
 }
