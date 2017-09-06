@@ -2,6 +2,7 @@
 namespace Digbang\Locations;
 
 use Digbang\Locations\Entities\Address;
+use Digbang\Locations\Entities\Country;
 use Doctrine\ORM\EntityNotFoundException;
 use Ramsey\Uuid\UuidInterface;
 
@@ -20,4 +21,10 @@ interface LocationRepository
     public function findAll();
 
     public function persist(Address $address): void;
+
+    /**
+     * @param string $code
+     * @return Country|null
+     */
+    public function findCountryByCode(string $code): ?Country;
 }

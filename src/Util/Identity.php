@@ -1,4 +1,5 @@
 <?php
+
 namespace Digbang\Locations\Util;
 
 use Ramsey\Uuid\UuidInterface;
@@ -16,7 +17,7 @@ trait Identity
 
     public function getId(): UuidInterface
     {
-        return $this->id;
+        return Uuid::fromString($this->id);
     }
 
     public function equalsId(UuidIdentifiable $entity): bool
