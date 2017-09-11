@@ -1,4 +1,5 @@
 <?php
+
 namespace Digbang\Locations\Util;
 
 use Ramsey\Uuid\UuidInterface;

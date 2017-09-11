@@ -1,4 +1,5 @@
 <?php
+
 namespace Digbang\Locations\Util;
 
 use Digbang\Locations\Entities\{
@@ -9,7 +10,7 @@ use Geocoder\Model\AdminLevelCollection;
 
 class AddressBuilder
 {
-    public function buildAddress(\Geocoder\Model\Address $address): Address
+    public function buildAddress(\Geocoder\Model\Address $address, ?Country $country): Address
     {
         return new Address(
             $this->buildCoordinates($address->getCoordinates()),
@@ -20,7 +21,7 @@ class AddressBuilder
             $address->getLocality(),
             $address->getSubLocality(),
             $this->buildAdministrativeLevels($address->getAdminLevels()),
-            $this->buildCountry($address->getCountry()),
+            $country?? $this->buildCountry($address->getCountry()),
             $address->getTimezone()
         );
     }

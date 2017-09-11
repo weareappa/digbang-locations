@@ -1,6 +1,8 @@
 <?php
+
 namespace Digbang\Locations\Doctrine\Mappings;
 
+use Digbang\Locations\Doctrine\Types\UuidType;
 use Digbang\Locations\Entities\Address;
 use Digbang\Locations\Entities\AdministrativeLevel;
 use Digbang\Locations\Entities\Bounds;
@@ -16,7 +18,7 @@ class AddressMapping extends EntityMapping
         // Table prefix
         $builder->table('locations_addresses');
 
-        $builder->guid('id')->primary();
+        $builder->field(UuidType::NAME, 'id')->primary();
         $builder->string('streetNumber')->nullable();
         $builder->string('streetName')->nullable();
         $builder->string('locality')->nullable();

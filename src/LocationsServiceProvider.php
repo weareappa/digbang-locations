@@ -3,7 +3,10 @@
 namespace Digbang\Locations;
 
 use Digbang\Locations\Doctrine\Mappings;
+use Digbang\Locations\Doctrine\Repositories\DoctrineCountryRepository;
 use Digbang\Locations\Doctrine\Repositories\DoctrineLocationRepository;
+use Doctrine\DBAL\Types\Type;
+use Digbang\Locations\Doctrine\Types\UuidType;
 use Doctrine\ORM\EntityManagerInterface;
 use Geocoder\Provider\GoogleMaps\GoogleMaps;
 use Geocoder\Provider\Provider;
@@ -29,6 +32,7 @@ class LocationsServiceProvider extends ServiceProvider
 
         $this->app->bind(Provider::class, config('locations.provider'));
         $this->app->bind(LocationRepository::class, DoctrineLocationRepository::class);
+        $this->app->bind(CountryRepository::class, DoctrineCountryRepository::class);
 
         $this->app->bind(GoogleMaps::class,
             function ($app) {
@@ -37,6 +41,7 @@ class LocationsServiceProvider extends ServiceProvider
                                       config('locations.apikey'));
             });
 
+        $this->registerTypes();
     }
 
     /**
@@ -80,5 +85,12 @@ class LocationsServiceProvider extends ServiceProvider
     private function configPath(): string
     {
         return dirname(__DIR__) . '/config/locations.php';
+    }
+
+    private function registerTypes()
+    {
+        if (!Type::hasType(UuidType::NAME)) {
+            Type::addType(UuidType::NAME, UuidType::class);
+        }
     }
 }

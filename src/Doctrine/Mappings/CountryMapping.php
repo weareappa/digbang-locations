@@ -12,7 +12,7 @@ class CountryMapping extends EntityMapping
         // Table prefix
         $builder->table('locations_countries');
 
-        $builder->guid('id')->primary();
+        $builder->field(UuidType::NAME,'id')->primary();
         $builder->string('name');
         $builder->string('code')->unique();
     }

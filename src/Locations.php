@@ -1,4 +1,5 @@
 <?php
+
 namespace Digbang\Locations;
 
 use Digbang\Locations\Entities\Address;
@@ -20,12 +21,21 @@ class Locations
      * @var LocationRepository
      */
     private $repository;
+    /**
+     * @var CountryRepository
+     */
+    private $countryRepository;
 
-    public function __construct(Provider $provider, LocationRepository $repository, AddressBuilder $addressBuilder)
-    {
+    public function __construct(
+        Provider $provider,
+        LocationRepository $repository,
+        AddressBuilder $addressBuilder,
+        CountryRepository $countryRepository
+    ) {
         $this->provider = $provider;
         $this->addressBuilder = $addressBuilder;
         $this->repository = $repository;
+        $this->countryRepository = $countryRepository;
     }
 
     /**
@@ -57,7 +67,8 @@ class Locations
     private function mapCollection(Collection $collection): array
     {
         return array_map(function (\Geocoder\Model\Address $address) {
-            return $this->addressBuilder->buildAddress($address);
+            $country = $this->countryRepository->findCountryByCode($address->getCountry()->getCode());
+            return $this->addressBuilder->buildAddress($address, $country);
         },
             $collection->all());
     }
