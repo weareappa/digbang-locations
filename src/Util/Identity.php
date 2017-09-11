@@ -17,7 +17,7 @@ trait Identity
 
     public function getId(): UuidInterface
     {
-        return Uuid::fromString($this->id);
+        return $this->id;
     }
 
     public function equalsId(UuidIdentifiable $entity): bool
