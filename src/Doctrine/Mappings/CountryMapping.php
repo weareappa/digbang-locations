@@ -1,6 +1,7 @@
 <?php
 namespace Digbang\Locations\Doctrine\Mappings;
 
+use Digbang\Locations\Doctrine\Types\UuidType;
 use Digbang\Locations\Entities\Country;
 use LaravelDoctrine\Fluent\EntityMapping;
 use LaravelDoctrine\Fluent\Fluent;
