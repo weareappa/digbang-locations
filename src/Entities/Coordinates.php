@@ -1,7 +1,7 @@
 <?php
 namespace Digbang\Locations\Entities;
 
-class Coordinates
+class Coordinates implements \JsonSerializable
 {
     /** @var float */
     private $latitude;
@@ -35,5 +35,13 @@ class Coordinates
     public function getLongitude(): float
     {
         return $this->longitude;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'lat' => $this->getLatitude(),
+            'lng' => $this->getLongitude(),
+        ];
     }
 }

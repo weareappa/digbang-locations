@@ -357,4 +357,19 @@ class Address
         return implode(', ', $data) . implode(' ', $streeData);
     }
 
+    public function getStreetAddress(): string
+    {
+        $streeData = [
+            $this->getStreetName(),
+            $this->getStreetNumber(),
+        ];
+
+        return implode(' ', $streeData);
+    }
+
+    public function __toString()
+    {
+        return $this->getStreetAddress();
+    }
+
 }
