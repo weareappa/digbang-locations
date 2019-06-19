@@ -284,6 +284,13 @@ class Address
         return $this->administrativeLevels->getValues();
     }
 
+    public function getAdministrativeLevel(int $level): ?AdministrativeLevel
+    {
+        return $this->administrativeLevels->filter(function (AdministrativeLevel $administrativeLevel) use ($level) {
+            return $administrativeLevel->getLevel() === $level;
+        })->first();
+    }
+
     /**
      * Returns the country value.
      * @return Country
