@@ -286,9 +286,11 @@ class Address
 
     public function getAdministrativeLevel(int $level): ?AdministrativeLevel
     {
-        return $this->administrativeLevels->filter(function (AdministrativeLevel $administrativeLevel) use ($level) {
+        $administrativeLevel = $this->administrativeLevels->filter(function (AdministrativeLevel $administrativeLevel) use ($level) {
             return $administrativeLevel->getLevel() === $level;
         })->first();
+
+        return $administrativeLevel !== false ? $administrativeLevel : null;
     }
 
     /**
