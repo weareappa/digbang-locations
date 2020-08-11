@@ -4,7 +4,7 @@
     "type": "library",
     "require": {
         "php": ">=7.1.0",
-        "ramsey/uuid": "^3.9",
+        "ramsey/uuid": "^4.1",
         "laravel-doctrine/orm": "^1.6",
         "laravel-doctrine/fluent": "^1.1",
         "php-http/message": "^1.8",
