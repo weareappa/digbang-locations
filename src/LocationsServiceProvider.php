@@ -8,6 +8,7 @@ use Digbang\Locations\Doctrine\Repositories\DoctrineLocationRepository;
 use Doctrine\DBAL\Types\Type;
 use Digbang\Locations\Doctrine\Types\UuidType;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Geocoder\Provider\GoogleMaps\GoogleMaps;
 use Geocoder\Provider\Provider;
 use Http\Adapter\Guzzle6\Client;
@@ -20,9 +21,13 @@ class LocationsServiceProvider extends ServiceProvider
 {
     private const PACKAGE = 'locations';
 
-    public function boot(EntityManagerInterface $entityManager, MetaDataManager $metadata)
+    public function boot(ManagerRegistry $managerRegistry, MetaDataManager $metadata)
     {
-        $this->doctrineMappings($entityManager, $metadata);
+        /** @var EntityManager $entityManager */
+        foreach ($managerRegistry->getManagers() as $entityManager) {
+            $this->doctrineMappings($entityManager, $metadata);
+        }
+
         $this->resources();
     }
 
